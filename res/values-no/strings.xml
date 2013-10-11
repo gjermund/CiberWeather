@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">CiberVær</string>
+    <string name="action_settings">Instillinger</string>
+    <string name="title_section1">Seksjon 1</string>
+    <string name="title_section2">Seksjon 2</string>
+    <string name="title_section3">Seksjon 3</string>
+
+</resources>
