@@ -1,6 +1,14 @@
 package no.ciber.ciberweather;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+
+import no.ciber.data.Area;
+import no.ciber.data.AreaNorway;
+import no.ciber.data.AreaWorld;
+import no.ciber.database.DatabaseHandler;
+import no.ciber.utils.CSVParser;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -36,7 +44,11 @@ public class MainActivity extends FragmentActivity implements
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
+	
+	List<Area> areas;
+	DatabaseHandler database;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -75,6 +87,39 @@ public class MainActivity extends FragmentActivity implements
 			actionBar.addTab(actionBar.newTab()
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
+		}
+		
+		database = new DatabaseHandler(this);
+		
+		database.empty();
+		if(database.getAreaCount() == 0){
+			areas = new ArrayList<Area>();
+			List<String> parsedNorwegianAreas = CSVParser.parseAreaFile(this, R.raw.norwegian_places);
+			List<String> parsedRestOfWorldPlaces = CSVParser.parseAreaFile(this, R.raw.rest_of_world_places);
+			
+			createAreas(parsedNorwegianAreas);
+			createAreas(parsedRestOfWorldPlaces);
+			
+			
+			System.out.println("Size: " + areas.size());
+			
+			AreaToDatabaseTask task = new AreaToDatabaseTask(database);
+			task.execute(areas);	
+		}else {
+			System.out.println("database not empty!: " + database.getAreaCount());
+		}
+		
+		
+
+
+		
+	}
+
+	private void createAreas(List<String> parsedAreas) {
+		for(String s : parsedAreas){
+			ArrayList<String> areaString = CSVParser.parseLineTilPassering(s);
+			Area area = areaString.size() > 15 ? new AreaWorld(areaString) : new AreaNorway(areaString);
+			areas.add(area);
 		}
 	}
 
