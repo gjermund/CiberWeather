@@ -91,7 +91,9 @@ public class MainActivity extends FragmentActivity implements
 		
 		database = new DatabaseHandler(this);
 		
-		database.empty();
+		//database.empty();
+		
+		//27365 er size
 		if(database.getAreaCount() == 0){
 			areas = new ArrayList<Area>();
 			List<String> parsedNorwegianAreas = CSVParser.parseAreaFile(this, R.raw.norwegian_places);

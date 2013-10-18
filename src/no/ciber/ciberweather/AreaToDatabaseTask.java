@@ -29,7 +29,7 @@ public class AreaToDatabaseTask extends AsyncTask<List<Area>, Integer, Long> {
 	}
 	
 	protected void onProgressUpdate(Integer... progress){
-		System.out.println(progress[0]);
+		//System.out.println(progress[0]);
 	}
 
 	protected void onPostExecute(Long result) {
