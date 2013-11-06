@@ -20,4 +20,5 @@ public class TextForecast extends Forecast {
 		return body;
 	}
 	
+	
 }

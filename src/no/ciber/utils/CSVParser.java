@@ -29,6 +29,7 @@ public class CSVParser {
 			bufferedReader.readLine(); //skip first line, contains definitions.
 			while ((line = bufferedReader.readLine()) != null) {
 				rawData.add(line);
+				Log.d(TAG, line);
 			}
 		} catch (IOException e) {
 			Log.d(TAG, "Parse Error: " + e.getMessage(), e);
