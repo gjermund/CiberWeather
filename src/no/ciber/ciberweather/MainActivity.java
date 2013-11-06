@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity implements
@@ -97,10 +98,10 @@ public class MainActivity extends FragmentActivity implements
 		if(database.getAreaCount() == 0){
 			areas = new ArrayList<Area>();
 			List<String> parsedNorwegianAreas = CSVParser.parseAreaFile(this, R.raw.norwegian_places);
-			List<String> parsedRestOfWorldPlaces = CSVParser.parseAreaFile(this, R.raw.rest_of_world_places);
+//			List<String> parsedRestOfWorldPlaces = CSVParser.parseAreaFile(this, R.raw.rest_of_world_places);
 			
 			createAreas(parsedNorwegianAreas);
-			createAreas(parsedRestOfWorldPlaces);
+//			createAreas(parsedRestOfWorldPlaces);
 			
 			
 			System.out.println("Size: " + areas.size());
@@ -175,7 +176,7 @@ public class MainActivity extends FragmentActivity implements
 		@Override
 		public int getCount() {
 			// Show 3 total pages.
-			return 3;
+			return 2;
 		}
 
 		@Override
@@ -186,8 +187,6 @@ public class MainActivity extends FragmentActivity implements
 				return getString(R.string.title_section1).toUpperCase(l);
 			case 1:
 				return getString(R.string.title_section2).toUpperCase(l);
-			case 2:
-				return getString(R.string.title_section3).toUpperCase(l);
 			}
 			return null;
 		}
@@ -210,14 +209,18 @@ public class MainActivity extends FragmentActivity implements
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
+			System.out.println("bløæ");
 			View rootView = inflater.inflate(R.layout.fragment_main_dummy,
 					container, false);
 			TextView dummyTextView = (TextView) rootView
 					.findViewById(R.id.section_label);
 			dummyTextView.setText(Integer.toString(getArguments().getInt(
 					ARG_SECTION_NUMBER)));
+			ListView lv = (ListView) rootView.findViewById(R.id.listView1);
 			return rootView;
 		}
 	}
+	
+	
 
 }
