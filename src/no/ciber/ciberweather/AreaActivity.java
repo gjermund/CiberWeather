@@ -89,7 +89,7 @@ public class AreaActivity extends FragmentActivity implements
 					.setTabListener(this));
 		}
 		
-		database = new DatabaseHandler(this);
+		database = DatabaseHandler.getInstance(this);
 		
 		//database.empty();
 		
@@ -110,10 +110,6 @@ public class AreaActivity extends FragmentActivity implements
 		}else {
 			System.out.println("database not empty!: " + database.getAreaCount());
 		}
-		
-		
-
-
 		
 	}
 
