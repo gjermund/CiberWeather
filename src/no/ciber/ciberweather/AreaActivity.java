@@ -27,7 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class MainActivity extends FragmentActivity implements
+public class AreaActivity extends FragmentActivity implements
 		ActionBar.TabListener {
 
 	/**
@@ -89,7 +89,7 @@ public class MainActivity extends FragmentActivity implements
 					.setTabListener(this));
 		}
 		
-		//database = new DatabaseHandler(this);
+		database = new DatabaseHandler(this);
 		
 		//database.empty();
 		
