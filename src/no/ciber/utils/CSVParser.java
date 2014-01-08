@@ -1,21 +1,14 @@
 package no.ciber.utils;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
-import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
-
-import no.ciber.ciberweather.R;
-import no.ciber.data.Area;
 
 public class CSVParser {
 	private static final String TAG = CSVParser.class.getSimpleName();
@@ -38,8 +31,8 @@ public class CSVParser {
 		return rawData;	
 	}
 
-	public static List<String> parseAreaFile(Activity activity, int res_id) {
-		InputStream is = activity.getResources().openRawResource(res_id);
+	public static List<String> parseAreaFile(Context context, int res_id) {
+		InputStream is = context.getResources().openRawResource(res_id);
 		
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 		return parse(reader);

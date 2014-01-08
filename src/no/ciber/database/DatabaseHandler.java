@@ -19,8 +19,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_MUNCIPALITY = "muncipality";
     private static final String TABLE_COUNTY = "county";
 	
-	public DatabaseHandler(Context context) {
+    private static DatabaseHandler instance = null;
+    
+	private DatabaseHandler(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+	}
+	
+	public static DatabaseHandler getInstance(Context context) {
+		if(instance == null) instance = new DatabaseHandler(context);
+		return instance;
 	}
 
 	@Override
@@ -214,10 +221,4 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		return -1;
 	}
 
-	public void empty() {
-		SQLiteDatabase db = this.getWritableDatabase();
-		db.delete(TABLE_AREA, null, null);
-		db.delete(TABLE_AREA_NORWAY, null, null);
-		db.delete(TABLE_AREA_WORLD, null, null);
-	}
 }

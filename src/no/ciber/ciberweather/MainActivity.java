@@ -89,7 +89,7 @@ public class MainActivity extends FragmentActivity implements
 					.setTabListener(this));
 		}
 		
-		database = new DatabaseHandler(this);
+		//database = new DatabaseHandler(this);
 		
 		//database.empty();
 		
