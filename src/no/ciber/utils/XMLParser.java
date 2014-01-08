@@ -1,5 +1,7 @@
 package no.ciber.utils;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,13 +30,15 @@ import org.w3c.dom.NodeList;
 
 public class XMLParser {
 
-	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-ddThh:mm:ss");
+	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
 	
 	public static void parseForecast(String xmlString, WeatherData weatherData) {
 		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            InputStream inputStream = new ByteArrayInputStream(xmlString.getBytes());
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.parse(xmlString);
+			Document document = builder.parse(inputStream);
 			
 			Element weatherDataElement = document.getDocumentElement();
 			Node forecastNode = getChildNodeByName(weatherDataElement, "forecast");
