@@ -1,34 +1,22 @@
 package no.ciber.ciberweather;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
+import no.ciber.adapters.WeatherActivityPagerAdapter;
 import no.ciber.data.Area;
 import no.ciber.data.AreaNorway;
 import no.ciber.data.AreaWorld;
-import no.ciber.data.TextForecast;
 import no.ciber.database.DatabaseHandler;
 import no.ciber.utils.CSVParser;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
-public class MainActivity extends FragmentActivity implements
-		ActionBar.TabListener {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -38,7 +26,7 @@ public class MainActivity extends FragmentActivity implements
 	 * intensive, it may be best to switch to a
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
-	SectionsPagerAdapter mSectionsPagerAdapter;
+	WeatherActivityPagerAdapter mSectionsPagerAdapter;
 
 	/**
 	 * The {@link ViewPager} that will host the section contents.
@@ -60,8 +48,7 @@ public class MainActivity extends FragmentActivity implements
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
-		mSectionsPagerAdapter = new SectionsPagerAdapter(
-				getSupportFragmentManager());
+		mSectionsPagerAdapter = new WeatherActivityPagerAdapter(getSupportFragmentManager(), this);
 
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -70,8 +57,7 @@ public class MainActivity extends FragmentActivity implements
 		// When swiping between different sections, select the corresponding
 		// tab. We can also use ActionBar.Tab#select() to do this if we have
 		// a reference to the Tab.
-		mViewPager
-				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+		mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 					@Override
 					public void onPageSelected(int position) {
 						actionBar.setSelectedNavigationItem(position);
@@ -84,12 +70,10 @@ public class MainActivity extends FragmentActivity implements
 			// the adapter. Also specify this Activity object, which implements
 			// the TabListener interface, as the callback (listener) for when
 			// this tab is selected.
-			actionBar.addTab(actionBar.newTab()
-					.setText(mSectionsPagerAdapter.getPageTitle(i))
-					.setTabListener(this));
+			actionBar.addTab(actionBar.newTab().setText(mSectionsPagerAdapter.getPageTitle(i)).setTabListener(this));
 		}
 		
-		//database = new DatabaseHandler(this);
+		database = DatabaseHandler.getInstance(this);
 		
 		//database.empty();
 		
@@ -150,95 +134,4 @@ public class MainActivity extends FragmentActivity implements
 			FragmentTransaction fragmentTransaction) {
 	}
 
-	/**
-	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-	 * one of the sections/tabs/pages.
-	 */
-	public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-		public SectionsPagerAdapter(FragmentManager fm) {
-			super(fm);
-		}
-
-		@Override
-		public Fragment getItem(int position) {
-			// getItem is called to instantiate the fragment for the given page.
-			// Return a DummySectionFragment (defined as a static inner class
-			// below) with the page number as its lone argument.
-			Fragment fragment = new DummySectionFragment();
-			Bundle args = new Bundle();
-			args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-			fragment.setArguments(args);
-			return fragment;
-		}
-
-		@Override
-		public int getCount() {
-			// Show 3 total pages.
-			return 2;
-		}
-
-		@Override
-		public CharSequence getPageTitle(int position) {
-			Locale l = Locale.getDefault();
-			switch (position) {
-			case 0:
-				return getString(R.string.title_section1).toUpperCase(l);
-			case 1:
-				return getString(R.string.title_section2).toUpperCase(l);
-			}
-			return null;
-		}
-	}
-
-	/**
-	 * A dummy fragment representing a section of the app, but that simply
-	 * displays dummy text.
-	 */
-	public static class DummySectionFragment extends Fragment {
-		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
-		 */
-		public static final String ARG_SECTION_NUMBER = "section_number";
-
-		public DummySectionFragment() {
-		}
-
-		@Override
-		public View onCreateView(final LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			
-			TextForecast textForecast = new TextForecast(new Date(), new Date(), "Gunter1", "Mmmmh, I touch my tralalala");
-			TextForecast textForecast1 = new TextForecast(new Date(), new Date(), "Gunter2", "Mmmmh, I touch my tralalalalalalalalalalalalalalalalala");
-			View rootView = inflater.inflate(R.layout.fragment_main_dummy,
-					container, false);
-			ListView lv = (ListView) rootView.findViewById(R.id.listView1);
-			
-			
-			ArrayList<TextForecast> arrayList = new ArrayList<TextForecast>();
-			arrayList.add(textForecast);
-			arrayList.add(textForecast1);
-			ArrayAdapter<TextForecast> adapter = new ArrayAdapter<TextForecast>(getActivity(), android.R.layout.simple_list_item_1, arrayList) {
-				@Override
-				public View getView(int position, View convertView, ViewGroup parent) {
-					View vi = convertView;
-					if (convertView == null) {
-						vi = inflater.inflate(R.layout.list_item, null);
-					}
-					TextForecast item = getItem(position);
-					TextView header = (TextView)vi.findViewById(R.id.itemHeader);
-					header.setText(item.getTitle());
-					
-					TextView body = (TextView)vi.findViewById(R.id.itemBody);
-					body.setText(item.getBody());
-					
-					return vi;
-				}
-
-			};
-			lv.setAdapter(adapter);
-			return rootView;
-		}
-	}
 }

@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import no.ciber.data.Area;
 import no.ciber.data.WeatherData;
+import no.ciber.interfaces.Callback;
 import no.ciber.utils.XMLParser;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
@@ -13,6 +14,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 public class GetForecastTask extends AsyncTask<Area, Void, WeatherData> {
 
+	private Callback callback;
+	
+	public GetForecastTask(Callback callback) {
+		this.callback = callback;
+	}
+	
     @Override
     protected WeatherData doInBackground(Area... params) {
         try {
@@ -37,5 +44,6 @@ public class GetForecastTask extends AsyncTask<Area, Void, WeatherData> {
     @Override
     protected void onPostExecute(WeatherData weatherData) {
         Log.d("Test", "Antall forecasts: " + weatherData.getTabularForecasts().size());
+        callback.onTaskDone(weatherData);
     }
 }
