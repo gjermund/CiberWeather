@@ -1,9 +1,10 @@
 package no.ciber.data;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Area {
+public abstract class Area implements Serializable {
 	private String latitude;
 	private String longitude;
 	private String forecastXMLURL;

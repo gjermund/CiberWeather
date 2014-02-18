@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import android.content.Intent;
 import android.view.*;
 import android.widget.*;
 import no.ciber.adapter.AreaAdapter;
+import no.ciber.ciberweather.MainActivity;
 import no.ciber.ciberweather.R;
 import no.ciber.data.Area;
 import no.ciber.service.SearchService;
@@ -61,7 +63,9 @@ public class SearchFragment extends Fragment {
         searchResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.e(TAG, "Click!");
+                Intent click = new Intent(context, MainActivity.class);
+                click.putExtra("area", (Area) adapter.getItem(i));
+                context.startActivity(click);
             }
         });
 		return rootView;
