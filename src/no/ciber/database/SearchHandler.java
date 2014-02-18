@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import no.ciber.data.Area;
+import no.ciber.data.AreaNorway;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,22 +20,27 @@ public class SearchHandler {
 	public List<Area> search(String query) {
 		SQLiteDatabase db = databaseHandler.getReadableDatabase();
 		db.beginTransaction();
-		
-		Cursor cursor = db.rawQuery("select * from area a, area_norway an where an.area_name LIKE ? AND a.id = an.id", new String[]{"%"+query+"%"}); 
-			
-		System.out.println(cursor.getCount());
-		
+		List<Area> result = new ArrayList<Area>();
+		Cursor cursor = db.rawQuery("select a.area_type_newno, a.area_type_no, a.area_type_en, a.latitude, a.longitude, a.forecast_url, an.area_name " +
+				" from area a, area_norway an where an.area_name LIKE ? AND a.id = an.id", new String[]{"%"+query+"%"}); 
+					
 	    cursor.moveToFirst();
 	    while (!cursor.isAfterLast()) {
-	      System.out.println(cursor.getString(cursor.getColumnIndex("area_name")));
+	      Area area = CursorToAreaNorway(cursor);
+	      result.add(area);
 	      cursor.moveToNext();
 	    }
 	    
-	    // make sure to close the cursor
 	    cursor.close();
-		List<Area> result = new ArrayList<Area>();
 		
 		return result;
+	}
+
+	private Area CursorToAreaNorway(Cursor cursor) {
+		return new AreaNorway(
+				cursor.getString(0), cursor.getString(1), cursor.getString(2),
+				cursor.getString(3), cursor.getString(4),
+				cursor.getString(5), cursor.getString(6), null, null);
 	}
 
 }

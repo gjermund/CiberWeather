@@ -19,6 +19,18 @@ public class AreaNorway extends Area {
 		county = areaString.get(7);
 	}
 
+	public AreaNorway(
+			String areaTypeNewNorwegian, String areaTypeBokmaal, String areaTypeEnglish,
+			String latitude, String longitude, String forecastXML, String areaName,
+			String muncipality, String county)
+	{
+		super(areaTypeNewNorwegian, areaTypeBokmaal, areaTypeEnglish, latitude, longitude, forecastXML);
+		
+		this.name = areaName;
+		this.muncipality = muncipality;
+		this.county = county;
+	}
+	
 	public String getName() {
 		return name;
 	}

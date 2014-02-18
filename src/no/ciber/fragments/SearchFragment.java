@@ -1,7 +1,10 @@
 package no.ciber.fragments;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import no.ciber.adapter.AreaAdapter;
 import no.ciber.ciberweather.R;
 import no.ciber.data.Area;
 import no.ciber.service.SearchService;
@@ -15,12 +18,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 public class SearchFragment extends Fragment {
 	private static final String TAG = SearchFragment.class.getSimpleName();
 	private SearchService searchService;
+	private AreaAdapter adapter;
+
 	private Context context;
 
 	public void initialize(Context context) {
@@ -53,6 +59,10 @@ public class SearchFragment extends Fragment {
 			}
 
 		});
+		
+        ListView searchResults = (ListView)rootView.findViewById(R.id.searchResults);
+        adapter = new AreaAdapter(context);
+        searchResults.setAdapter(adapter);
 		return rootView;
 	}
 
@@ -63,6 +73,18 @@ public class SearchFragment extends Fragment {
 		}
 
 		List<Area> result = searchService.searchAreas(search);
+        System.out.println("search complete: " + result.size());
+		if(result.size() == 0){
+			showToast();
+		}
+		else {	        
+			adapter.clear();
+			adapter.addAll(result);
+		}
+	}
 
+	private void showToast() {
+		// TODO Auto-generated method stub
+		
 	}
 }
