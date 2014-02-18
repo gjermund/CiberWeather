@@ -155,8 +155,12 @@ public class XMLParser {
             
 			return dateFormat.parse(attribute.getTextContent());
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			try {
+                return dateFormatSimple.parse(attribute.getTextContent());
+            }
+            catch (Exception e2) {
+                return null;
+            }
 		}
 	}
 

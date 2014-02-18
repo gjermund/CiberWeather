@@ -43,7 +43,6 @@ public class GetForecastTask extends AsyncTask<Area, Void, WeatherData> {
 
     @Override
     protected void onPostExecute(WeatherData weatherData) {
-        Log.d("Test", "Antall forecasts: " + weatherData.getTabularForecasts().size());
         callback.onTaskDone(weatherData);
     }
 }

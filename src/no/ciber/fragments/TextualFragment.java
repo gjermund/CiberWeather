@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
+import android.text.Html;
 import no.ciber.ciberweather.R;
+import no.ciber.data.Area;
 import no.ciber.data.TabularForecast;
 import no.ciber.data.TextForecast;
 import no.ciber.data.WeatherData;
@@ -30,7 +32,12 @@ public class TextualFragment extends Fragment {
 
 		@Override
 		public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_main_dummy, container, false);
+            final ListView lv = (ListView) rootView.findViewById(R.id.listView1);
 
+            Area area = new Area(null, null, null, null, null, "http://www.yr.no/sted/Norge/%C3%98stfold/Fredrikstad/Apenesfjellet/varsel.xml") {
+
+            };
 			new GetForecastTask(new Callback() {
 				
 				@Override
@@ -39,39 +46,36 @@ public class TextualFragment extends Fragment {
 					while (iterator.hasNext()) {
 						arrayList.add(iterator.next());
 					}
+                    lv.setAdapter(getTextForecastArrayAdapter(inflater));
 				}
-			});
-			
-//			TextForecast textForecast = new TextForecast(new Date(), new Date(), "Gunter1", "Mmmmh, I touch my tralalala");
-//			TextForecast textForecast1 = new TextForecast(new Date(), new Date(), "Gunter2", "Mmmmh, I touch my tralalalalalalalalalalalalalalalalala");
-//			TextForecast textForecast2 = new TextForecast(new Date(), new Date(), "Bottom", "Wwootowot");
-			
-			View rootView = inflater.inflate(R.layout.fragment_main_dummy, container, false);
-			ListView lv = (ListView) rootView.findViewById(R.id.listView1);
-			
-//			arrayList.add(textForecast);
-//			arrayList.add(textForecast1);
-//			arrayList.add(textForecast2);
-			ArrayAdapter<TextForecast> adapter = new ArrayAdapter<TextForecast>(getActivity(), android.R.layout.simple_list_item_1, arrayList) {
+			}).execute(area);
 
-			@Override
-			public View getView(int position, View convertView, ViewGroup parent) {
-				View vi = convertView;
-				if (convertView == null) {
-					vi = inflater.inflate(R.layout.list_item, null);
-				}
-				TextForecast item = getItem(position);
-				TextView header = (TextView)vi.findViewById(R.id.itemHeader);
-				header.setText(item.getTitle());
-				
-				TextView body = (TextView)vi.findViewById(R.id.itemBody);
-				body.setText(item.getBody());
-				
-				return vi;
-			}
 
-		};
-		lv.setAdapter(adapter);
-		return rootView;
-	}
+
+            ArrayAdapter<TextForecast> adapter = getTextForecastArrayAdapter(inflater);
+            lv.setAdapter(adapter);
+		    return rootView;
+	    }
+
+    private ArrayAdapter<TextForecast> getTextForecastArrayAdapter(final LayoutInflater inflater) {
+        return new ArrayAdapter<TextForecast>(getActivity(), android.R.layout.simple_list_item_1, arrayList) {
+
+                    @Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        View vi = convertView;
+                        if (convertView == null) {
+                            vi = inflater.inflate(R.layout.list_item, null);
+                        }
+                        TextForecast item = getItem(position);
+                        TextView header = (TextView)vi.findViewById(R.id.itemHeader);
+                        header.setText(item.getTitle());
+
+                        TextView body = (TextView)vi.findViewById(R.id.itemBody);
+                        body.setText(Html.fromHtml(item.getBody()));
+
+                        return vi;
+                    }
+
+                };
+    }
 }
