@@ -109,8 +109,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		ContentValues areaValues = new ContentValues();
 		
 		areaValues.put("area_type_newno", area.getAreaTypeNewNorwegian());
-		areaValues.put("area_type_newno", area.getAreaTypeNorwegian());
-		areaValues.put("area_type_newno", area.getAreaTypeEnglish());
+		areaValues.put("area_type_no", area.getAreaTypeNorwegian());
+		areaValues.put("area_type_en", area.getAreaTypeEnglish());
 		areaValues.put("latitude", area.getLatitude());
 		areaValues.put("longitude", area.getLongitude());
 		areaValues.put("forecast_url", area.getForecastXMLURL());
