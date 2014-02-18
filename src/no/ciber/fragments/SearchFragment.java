@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import android.view.*;
+import android.widget.*;
 import no.ciber.adapter.AreaAdapter;
 import no.ciber.ciberweather.R;
 import no.ciber.data.Area;
@@ -12,14 +14,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 public class SearchFragment extends Fragment {
@@ -63,6 +58,12 @@ public class SearchFragment extends Fragment {
         ListView searchResults = (ListView)rootView.findViewById(R.id.searchResults);
         adapter = new AreaAdapter(context);
         searchResults.setAdapter(adapter);
+        searchResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.e(TAG, "Click!");
+            }
+        });
 		return rootView;
 	}
 
@@ -84,7 +85,11 @@ public class SearchFragment extends Fragment {
 	}
 
 	private void showToast() {
-		// TODO Auto-generated method stub
-		
+        CharSequence text = "Ingen resultater funnet";
+        int duration = Toast.LENGTH_SHORT;
+
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.setGravity(Gravity.CENTER, Gravity.CENTER_HORIZONTAL, Gravity.CENTER_VERTICAL);
+        toast.show();
 	}
 }
