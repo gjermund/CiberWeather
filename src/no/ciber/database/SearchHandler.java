@@ -21,8 +21,8 @@ public class SearchHandler {
 		SQLiteDatabase db = databaseHandler.getReadableDatabase();
 		db.beginTransaction();
 		List<Area> result = new ArrayList<Area>();
-		Cursor cursor = db.rawQuery("select a.area_type_newno, a.area_type_no, a.area_type_en, a.latitude, a.longitude, a.forecast_url, an.area_name " +
-				" from area a, area_norway an where an.area_name LIKE ? AND a.id = an.id", new String[]{"%"+query+"%"}); 
+		Cursor cursor = db.rawQuery("select a.area_type_newno, a.area_type_no, a.area_type_en, a.latitude, a.longitude, a.forecast_url, an.area_name, c.county, m.muncipality " +
+				" from area a, area_norway an, county c, muncipality m where an.area_name LIKE ? AND a.id = an.id and an.county_id = c.id and an.muncipality_id = m.id", new String[]{"%"+query+"%"});
 					
 	    cursor.moveToFirst();
 	    while (!cursor.isAfterLast()) {
@@ -40,7 +40,7 @@ public class SearchHandler {
 		return new AreaNorway(
 				cursor.getString(0), cursor.getString(1), cursor.getString(2),
 				cursor.getString(3), cursor.getString(4),
-				cursor.getString(5), cursor.getString(6), null, null);
+				cursor.getString(5), cursor.getString(6), cursor.getString(8), cursor.getString(7));
 	}
 
 }

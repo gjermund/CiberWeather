@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import no.ciber.data.AreaNorway;
 
 public class AreaAdapter extends BaseAdapter {
 	private List<Area> areasInList;
@@ -49,7 +50,7 @@ public class AreaAdapter extends BaseAdapter {
 		TextView title = (TextView)view.findViewById(R.id.title);
         
         Area area = areasInList.get(arg0);
-        title.setText(area.getAreaTypeNewNorwegian());
+        title.setText(((AreaNorway) area).getName() + " (" + ((AreaNorway) area).getMuncipality()+")" + " (" + ((AreaNorway) area).getCounty()+")");
         return view;
 	}
 
