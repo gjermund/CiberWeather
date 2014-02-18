@@ -1,9 +1,6 @@
 package no.ciber.utils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +31,14 @@ public class CSVParser {
 
 	public static List<String> parseAreaFile(Context context, int res_id) {
 		InputStream is = context.getResources().openRawResource(res_id);
-		
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-		return parse(reader);
+
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "ISO-8859-1"));
+            return parse(reader);
+        } catch (UnsupportedEncodingException e) {
+            return null;
+        }
+
 	}
 	
 	public static ArrayList<String> parseLineTilPassering(String line) {

@@ -2,7 +2,9 @@ package no.ciber.adapters;
 
 import java.util.Locale;
 
+import android.os.Bundle;
 import no.ciber.ciberweather.R;
+import no.ciber.data.Area;
 import no.ciber.fragments.TextualFragment;
 import no.ciber.fragments.WeatherFragment;
 import android.content.Context;
@@ -14,10 +16,12 @@ import android.util.Log;
 public class WeatherActivityPagerAdapter extends FragmentPagerAdapter {
 
 	private Context context;
+    private Area area;
 	
-	public WeatherActivityPagerAdapter(FragmentManager fm, Context context) {
+	public WeatherActivityPagerAdapter(FragmentManager fm, Context context, Area area) {
 		super(fm);
 		this.context = context;
+        this.area = area;
 	}
 
 	@Override
@@ -33,11 +37,17 @@ public class WeatherActivityPagerAdapter extends FragmentPagerAdapter {
 	}
 	@Override
 	public Fragment getItem(int position) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("area", area);
 		switch(position) {
 		case 0:
-			return new WeatherFragment();
+			WeatherFragment weatherFragment =  new WeatherFragment();
+            weatherFragment.setArguments(bundle);
+            return weatherFragment;
 		case 1:
-			return new TextualFragment();
+            TextualFragment textualFragment =  new TextualFragment();
+            textualFragment.setArguments(bundle);
+            return textualFragment;
 		default:
 			Log.d("TAG", "wtf -- default hvaforno?");
 			return null;

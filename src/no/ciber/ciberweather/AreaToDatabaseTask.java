@@ -6,12 +6,15 @@ import no.ciber.data.Area;
 import no.ciber.database.DatabaseHandler;
 
 import android.os.AsyncTask;
+import no.ciber.interfaces.Callback;
 
 public class AreaToDatabaseTask extends AsyncTask<List<Area>, Integer, Long> {
 	private DatabaseHandler database;
+    private Callback callback;
 	
-	public AreaToDatabaseTask(DatabaseHandler database){
+	public AreaToDatabaseTask(DatabaseHandler database, Callback callback){
 		this.database = database;
+        this.callback = callback;
 	}
 	
 	@Override
@@ -34,5 +37,6 @@ public class AreaToDatabaseTask extends AsyncTask<List<Area>, Integer, Long> {
 
 	protected void onPostExecute(Long result) {
 		System.out.println("done: " + result);
+        callback.onTaskDone(null);
 	}
 }

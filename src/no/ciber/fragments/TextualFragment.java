@@ -35,9 +35,8 @@ public class TextualFragment extends Fragment {
             View rootView = inflater.inflate(R.layout.fragment_main_dummy, container, false);
             final ListView lv = (ListView) rootView.findViewById(R.id.listView1);
 
-            Area area = new Area(null, null, null, null, null, "http://www.yr.no/sted/Norge/%C3%98stfold/Fredrikstad/Apenesfjellet/varsel.xml") {
-
-            };
+            Area area = (Area)this.getArguments().getSerializable("area");
+            
 			new GetForecastTask(new Callback() {
 				
 				@Override

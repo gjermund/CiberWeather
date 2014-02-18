@@ -37,8 +37,8 @@ public class AreaParserService {
 
 			System.out.println("Size: " + areas.size());
 
-			AreaToDatabaseTask task = new AreaToDatabaseTask(database);
-			task.execute(areas);
+			//AreaToDatabaseTask task = new AreaToDatabaseTask(database );
+			//task.execute(areas);
 		} else {
 			System.out.println("database not empty!: "
 					+ database.getAreaCount());

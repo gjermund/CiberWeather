@@ -37,7 +37,7 @@ public class SearchActivity extends FragmentActivity implements ActionBar.TabLis
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		new AreaParserService(this);
+		//new AreaParserService(this);
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 

@@ -33,8 +33,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	 */
 	ViewPager mViewPager;
 	
-	List<Area> areas;
-	DatabaseHandler database;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -42,13 +40,15 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		// Set up the action bar.
+        Area area = (Area) getIntent().getExtras().get("area");
+
+        // Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
-		mSectionsPagerAdapter = new WeatherActivityPagerAdapter(getSupportFragmentManager(), this);
+		mSectionsPagerAdapter = new WeatherActivityPagerAdapter(getSupportFragmentManager(), this, area);
 
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -71,41 +71,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			// the TabListener interface, as the callback (listener) for when
 			// this tab is selected.
 			actionBar.addTab(actionBar.newTab().setText(mSectionsPagerAdapter.getPageTitle(i)).setTabListener(this));
-		}
-		
-		database = DatabaseHandler.getInstance(this);
-		
-		//database.empty();
-		
-		//27365 er size
-		if(database.getAreaCount() == 0){
-			areas = new ArrayList<Area>();
-			List<String> parsedNorwegianAreas = CSVParser.parseAreaFile(this, R.raw.norwegian_places);
-//			List<String> parsedRestOfWorldPlaces = CSVParser.parseAreaFile(this, R.raw.rest_of_world_places);
-			
-			createAreas(parsedNorwegianAreas);
-//			createAreas(parsedRestOfWorldPlaces);
-			
-			
-			System.out.println("Size: " + areas.size());
-			
-			AreaToDatabaseTask task = new AreaToDatabaseTask(database);
-			task.execute(areas);	
-		}else {
-			System.out.println("database not empty!: " + database.getAreaCount());
-		}
-		
-		
-
-
-		
-	}
-
-	private void createAreas(List<String> parsedAreas) {
-		for(String s : parsedAreas){
-			ArrayList<String> areaString = CSVParser.parseLineTilPassering(s);
-			Area area = areaString.size() > 15 ? new AreaWorld(areaString) : new AreaNorway(areaString);
-			areas.add(area);
 		}
 	}
 
