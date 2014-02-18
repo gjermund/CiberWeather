@@ -31,6 +31,7 @@ import org.w3c.dom.NodeList;
 public class XMLParser {
 
 	private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+    private static SimpleDateFormat dateFormatSimple = new SimpleDateFormat("yyyy-MM-dd");
 	
 	public static void parseForecast(String xmlString, WeatherData weatherData) {
 		try {
@@ -151,6 +152,7 @@ public class XMLParser {
 		Node attribute = node.getAttributes().getNamedItem(attributeName);
 		if (attribute == null) return null;
 		try {
+            
 			return dateFormat.parse(attribute.getTextContent());
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -4,6 +4,8 @@ import java.util.List;
 
 import no.ciber.ciberweather.R;
 import no.ciber.data.Area;
+import no.ciber.data.AreaNorway;
+import no.ciber.network.GetForecastTask;
 import no.ciber.service.SearchService;
 import android.content.Context;
 import android.os.Bundle;
@@ -22,24 +24,25 @@ public class SearchFragment extends Fragment {
 	private static final String TAG = SearchFragment.class.getSimpleName();
 	private SearchService searchService;
 	private Context context;
-
-	public void initialize(Context context) {
+	
+	public void initialize(Context context){
 		this.context = context;
 		searchService = new SearchService(context);
 	}
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_search, container,
-				false);
+		View rootView = inflater.inflate(R.layout.fragment_search,
+				container, false);
+		
+		
 
 		EditText searchBox = (EditText) rootView.findViewById(R.id.searchBox);
-		searchBox.setOnEditorActionListener(new OnEditorActionListener() {
+		searchBox.setOnEditorActionListener(new OnEditorActionListener(){
 
 			@Override
-			public boolean onEditorAction(TextView view, int actionId,
-					KeyEvent event) {
+			public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
 				switch (actionId) {
 				case EditorInfo.IME_ACTION_SEARCH:
 					Log.d(TAG, "Searching for: " + view.getText());
@@ -48,21 +51,27 @@ public class SearchFragment extends Fragment {
 				default:
 					Log.e(TAG, "Wtf.");
 					break;
-				}
-				return true;
 			}
-
+			return true;
+			}
+			
 		});
 		return rootView;
 	}
 
+
 	protected void search(String search) {
-		System.out.println("search for: " + search);
 		if (search.trim().length() == 0) {
-			return;
-		}
+    		return;
+    	}
 
-		List<Area> result = searchService.searchAreas(search);
+        Area area = new Area(null, null, null, null, null, "http://www.yr.no/sted/Norge/%C3%98stfold/Fredrikstad/Apenesfjellet/varsel.xml") {
 
+        };
+
+
+		new GetForecastTask().execute(area);
+		
+		
 	}
 }
