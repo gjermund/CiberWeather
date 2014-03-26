@@ -1,5 +1,6 @@
 package no.ciber.fragments;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -68,7 +69,11 @@ public class TextualFragment extends Fragment {
                         TextForecast item = getItem(position);
                         TextView header = (TextView)vi.findViewById(R.id.itemHeader);
                         header.setText(item.getTitle());
-
+                        
+                        TextView dateRange = (TextView) vi.findViewById(R.id.itemDate);
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+                        dateRange.setText(sdf.format(item.getFrom()) + " - " + sdf.format(item.getTo()));
+                        
                         TextView body = (TextView)vi.findViewById(R.id.itemBody);
                         body.setText(Html.fromHtml(item.getBody()));
 

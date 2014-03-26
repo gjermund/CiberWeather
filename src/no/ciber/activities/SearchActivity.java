@@ -1,31 +1,13 @@
 package no.ciber.activities;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
 import no.ciber.adapters.SearchActivityPagerAdapter;
-import no.ciber.ciberweather.AreaToDatabaseTask;
 import no.ciber.ciberweather.R;
-import no.ciber.data.Area;
-import no.ciber.data.AreaNorway;
-import no.ciber.data.AreaWorld;
-import no.ciber.database.DatabaseHandler;
-import no.ciber.service.AreaParserService;
-import no.ciber.utils.CSVParser;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 public class SearchActivity extends FragmentActivity implements ActionBar.TabListener {
 	SearchActivityPagerAdapter searchActivityPagerAdapter;

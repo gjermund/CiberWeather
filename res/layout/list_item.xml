@@ -15,11 +15,21 @@
         />
 
     <TextView
+        android:id="@+id/itemDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:textColor="#C0C0C0"
+        android:textSize="10dp"
+        android:layout_below="@+id/itemHeader" />
+    
+    <TextView
         android:id="@+id/itemBody"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/itemHeader" />
+        android:layout_below="@+id/itemDate" />
 
 </RelativeLayout>
