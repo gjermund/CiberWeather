@@ -100,7 +100,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getWritableDatabase();
 		Cursor cursor = db.rawQuery(selectAll, null);
 		
-		return cursor.getCount();
+		int count = cursor.getCount();
+        cursor.close();;
+        return count;
 	}
 	
 	public void addArea(Area area) {
@@ -160,11 +162,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 		Cursor cursor = db.query(TABLE_COUNTRY, new String[] { "id" }, "country_en=?",
 	            new String[] {countryEnglish }, null, null, null, null);
+        long countryId = -1;
 	    if (cursor.getCount() > 0){
 	    	cursor.moveToFirst();
-	    	return cursor.getLong(0);
+	    	countryId = cursor.getLong(0);
 	    }
-		return -1;
+        cursor.close();
+		return countryId;
 	}
 
 	private long addCountry(String countryNewNorwegian,
@@ -193,11 +197,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 		Cursor cursor = db.query(TABLE_COUNTY, new String[] { "id" }, "county=?",
 	            new String[] {county }, null, null, null, null);
+
+        long countyId = -1;
 	    if (cursor.getCount() > 0){
 	    	cursor.moveToFirst();
-	    	return cursor.getLong(0);
+	    	countyId = cursor.getLong(0);
 	    }
-		return -1;
+        cursor.close();
+		return countyId;
 	}
 
 	private long addMuncipality(String muncipality) {
@@ -214,11 +221,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 		Cursor cursor = db.query(TABLE_MUNCIPALITY, new String[] { "id" }, "muncipality=?",
 	            new String[] {muncipality }, null, null, null, null);
+
+        long municipalityId = -1;
 	    if (cursor.getCount() > 0){
 	    	cursor.moveToFirst();
-	    	return cursor.getLong(0);
+	    	municipalityId = cursor.getLong(0);
 	    }
-		return -1;
+        cursor.close();
+		return municipalityId;
 	}
 
 }
