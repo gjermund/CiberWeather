@@ -1,23 +1,21 @@
 package no.ciber.fragments;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.*;
+import android.view.inputmethod.EditorInfo;
 import android.widget.*;
+import android.widget.TextView.OnEditorActionListener;
 import no.ciber.adapter.AreaAdapter;
 import no.ciber.ciberweather.MainActivity;
 import no.ciber.ciberweather.R;
 import no.ciber.data.Area;
 import no.ciber.service.SearchService;
-import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.inputmethod.EditorInfo;
-import android.widget.TextView.OnEditorActionListener;
+
+import java.util.List;
 
 public class SearchFragment extends Fragment {
 	private static final String TAG = SearchFragment.class.getSimpleName();
